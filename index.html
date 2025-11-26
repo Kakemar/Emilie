@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gratulere me dagen</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #eef2f5;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 7px rgba(0,0,0,0.15);
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 14px;
+      font-size: 1rem;
+      background: #dce3ea;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #c7d1da;
+    }
+    .hidden {
+      display: none;
+    }
+    .success {
+      color: green;
+      font-weight: bold;
+    }
+    .error {
+      color: red;
+      font-weight: bold;
+    }
+    textarea {
+      width: 100%;
+      height: 200px;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Gratulere med dagen</h2>
+    <p>For å få tilgang til dokumentet må du først løse passordgåten.</p>
+
+    <!-- PASSORD-GÅTE -->
+    <div id="password-section">
+      <h3>Passord-gåte</h3>
+      <p>Løs gåten for å finne passordet som trengs for å gå videre.</p>
+      <p><em>Hint: Tenk på en alderbetegnelse knyttet til når noe er lovlig.</em></p>
+
+      <input id="password-input" placeholder="Skriv passordet her..." />
+      <button onclick="checkPassword()">Sjekk passord</button>
+      <p id="password-feedback"></p>
+    </div>
+
+  
+
+    <!-- EKSTRA OPPGAVE -->
+    <div id="extra-task" class="hidden">
+      <h3>Ekstra oppgave</h3>
+      <p>Du må enten finne svaret i pakken eller sende en video der du gjør 30 pushups.</p>
+      <input id="extra-input" placeholder="Skriv inn svaret eller link til video" />
+      <button onclick="checkExtra()">Sjekk</button>
+      <p id="extra-feedback"></p>
+    </div>
+
+    <!-- DOKUMENT -->
+    <div id="document-section" class="hidden">
+      <h3>Dokument</h3>
+      <textarea> Gratulere så mye me 16 års dagen tenk at du endelig e blitt 16 år gammal nesten unc nå. Det at du e blitt 16 gjør at du kan gjør flere ting lovlig feks øvelskjøra men vetche om eg tør åg øvelsekjøra me dg. Men før d så må du få fart på trafikalt grunnkurs og en vrakbil må skaffas. Den ting eg vet du glede dg mest ove e at du endelig kan ha lovlig samleie d e noke eg vet at du blir veldig glad for. Håpe du like gaven din åg vertfall koss den e pakka inn. Håpe du fant lappen sånn at du ser dette eller at du sendte videoen. Glede mg te å feira på fredag åg litt synd at eg che kan idag. Veldig glad i dg åg håpe du e d men litt shoppingavhengig e du. Glede mg veldig te ein ting...</textarea>
+    </div>
+  </div>
+
+  <script>
+  
+
+    function checkPassword() {
+      const user = normalize(document.getElementById("password-input").value);
+      const fb = document.getElementById("password-feedback");
+
+      if (user === passwordCorrect || user === "16") {
+        fb.textContent = "Riktig passord!";
+        fb.className = "success";
+        document.getElementById("password-section").classList.add("hidden");
+        document.getElementById("riddle-section").classList.remove("hidden");
+      } else {
+        fb.textContent = "Feil passord. Prøv igjen.";
+        fb.className = "error";
+      }
+    }
+
+    function renderRiddles() {
+      const container = document.getElementById("riddles");
+      container.innerHTML = "";
+
+      riddles.forEach(r => {
+        const div = document.createElement("div");
+        div.style.marginBottom = "18px";
+        div.innerHTML = `
+          <p>${r.text}</p>
+          <input id="riddle-${r.id}" placeholder="Svar...">
+          <button onclick="checkRiddle(${r.id})">Sjekk</button>
+          <p id="feedback-${r.id}"></p>
+        `;
+        container.appendChild(div);
+      });
+
+      updateProgress();
+    }
+
+    function checkRiddle(id) {
+      const riddle = riddles.find(r => r.id === id);
+      const input = normalize(document.getElementById(`riddle-${id}`).value);
+      const fb = document.getElementById(`feedback-${r.id}`);
+
+      if (riddle.answers.includes(input)) {
+        fb.textContent = "Riktig!";
+        fb.className = "success";
+        solved[id] = true;
+      } else {
+        fb.textContent = "Feil. Prøv igjen.";
+        fb.className = "error";
+      }
+
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const done = Object.values(solved).filter(Boolean).length;
+      document.getElementById("progress").textContent = `${done}/${riddles.length} løst`;
+
+      if (done === riddles.length) {
+        document.getElementById("extra-task").classList.remove("hidden");
+      }
+    }
+
+    function checkExtra() {
+      const input = normalize(document.getElementById("extra-input").value);
+      const fb = document.getElementById("extra-feedback");
+      const correctAnswer = "håpe du hata denne nettsiden";
+
+      if (input === correctAnswer) {
+        fb.textContent = "Oppgaven er godkjent! Dokumentet er nå tilgjengelig.";
+        fb.className = "success";
+        document.getElementById("document-section").classList.remove("hidden");
+        document.getElementById("extra-task").classList.add("hidden");
+      } else {
+        fb.textContent = "Feil svar. Prøv igjen.";
+        fb.className = "error";
+      }
+    }
+
+    renderRiddles();
+  </script>
+</body>
+</html>
