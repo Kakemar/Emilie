@@ -62,10 +62,8 @@
     <h2>Gratulere med dagen</h2> 
   </div>
 
-  
-
     <!-- EKSTRA OPPGAVE -->
-    <div id="extra-task" class="hidden">
+    <div id="extra-task">
       <h3>Ekstra oppgave</h3>
       <p>Du må enten finne svaret i pakken eller sende en video der du gjør 30 pushups.</p>
       <input id="extra-input" placeholder="Skriv inn svaret eller link til video" />
@@ -78,21 +76,10 @@
       <h3>Dokument</h3>
       <textarea> Gratulere så mye me 16 års dagen tenk at du endelig e blitt 16 år gammal nesten unc nå. Det at du e blitt 16 gjør at du kan gjør flere ting lovlig feks øvelskjøra men vetche om eg tør åg øvelsekjøra me dg. Men før d så må du få fart på trafikalt grunnkurs og en vrakbil må skaffas. Den ting eg vet du glede dg mest ove e at du endelig kan ha lovlig samleie d e noke eg vet at du blir veldig glad for. Håpe du like gaven din åg vertfall koss den e pakka inn. Håpe du fant lappen sånn at du ser dette eller at du sendte videoen. Glede mg te å feira på fredag åg litt synd at eg che kan idag. Veldig glad i dg åg håpe du e d men litt shoppingavhengig e du. Glede mg veldig te ein ting...</textarea>
     </div>
-  </div>
 
   <script>
-  
-
-
-
-
-    function updateProgress() {
-      const done = Object.values(solved).filter(Boolean).length;
-      document.getElementById("progress").textContent = `${done}/${riddles.length} løst`;
-
-      if (done === riddles.length) {
-        document.getElementById("extra-task").classList.remove("hidden");
-      }
+    function normalize(str) {
+      return str.trim().toLowerCase();
     }
 
     function checkExtra() {
@@ -110,8 +97,7 @@
         fb.className = "error";
       }
     }
-
-    renderRiddles();
   </script>
 </body>
 </html>
+
